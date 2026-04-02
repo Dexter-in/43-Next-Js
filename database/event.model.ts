@@ -109,7 +109,7 @@ const eventSchema = new Schema<IEvent>(
  * Pre-save hook to generate slug, validate date, and normalize time
  * Runs before every save operation
  */
-eventSchema.pre('save', function (next) {
+eventSchema.pre('save', function () {
   // Generate slug only if title is modified
   if (this.isModified('title')) {
     this.slug = generateSlug(this.title);
@@ -119,7 +119,7 @@ eventSchema.pre('save', function (next) {
   if (this.isModified('date')) {
     const dateObj = new Date(this.date);
     if (isNaN(dateObj.getTime())) {
-      return next(new Error('Invalid date format'));
+      throw new Error('Invalid date format');
     }
     // Store as ISO date string (YYYY-MM-DD)
     this.date = dateObj.toISOString().split('T')[0];
@@ -129,11 +129,9 @@ eventSchema.pre('save', function (next) {
   if (this.isModified('time')) {
     const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
     if (!timeRegex.test(this.time)) {
-      return next(new Error('Time must be in HH:MM format (24-hour)'));
+      throw new Error('Time must be in HH:MM format (24-hour)');
     }
   }
-
-  next();
 });
 
 /**
