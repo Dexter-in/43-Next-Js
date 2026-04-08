@@ -4,8 +4,6 @@ import { v2 as cloudinary } from "cloudinary";
 import connectDB from "@/lib/mongodb";
 import Event from "@/database/event.model";
 
-export const runtime = "nodejs";
-
 export async function POST(req: NextRequest) {
   try {
     await connectDB();

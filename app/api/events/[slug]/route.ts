@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import { Event } from '@/database';
 
-export const runtime = "nodejs";
-
 // TypeScript interface for route params
 interface RouteParams {
   params: Promise<{
