@@ -12,8 +12,8 @@ import { cacheLife } from "next/cache";
 const Page =  async () => {
     'use cache';
     cacheLife('hours') // Cache for 60 seconds
-    const response  = await fetch(`${BASE_URL}/api/events`)
-    const {events} = await response.json(); 
+    // const response  = await fetch(`${BASE_URL}/api/events`)
+    // const {events} = await response.json(); 
 
 
     return (
