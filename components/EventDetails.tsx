@@ -51,6 +51,8 @@ const EventDetails = async ({ params }: { params: Promise<string> }) => {
             if (request.status === 404) {
                 return notFound();
             }
+            const body = await request.text().catch(() => '');
+            console.error('Failed to fetch event:', request.status, body);
             throw new Error(`Failed to fetch event: ${request.statusText}`);
         }
 

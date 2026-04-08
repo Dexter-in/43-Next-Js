@@ -4,6 +4,8 @@ import { v2 as cloudinary } from "cloudinary";
 import connectDB from "@/lib/mongodb";
 import Event from "@/database/event.model";
 
+export const runtime = "nodejs";
+
 export async function POST(req: NextRequest) {
   try {
     await connectDB();
@@ -91,12 +93,15 @@ export async function GET() {
 
         await connectDB();
 
-        const events = await Event.find().sort({ createdAt: -1 });
+        const events = await Event.find().sort({ createdAt: -1 }).lean();
 
         return NextResponse.json({ message: 'Events fetched successfully', events }, { status: 200 });
 
     } catch(e){
-        return NextResponse.json({message: "Failed to fetch events", error: e }, {status: 500});
+        const message = e instanceof Error ? e.message : "Unknown error";
+        console.error("Failed to fetch events:", e);
+
+        return NextResponse.json({ message: "Failed to fetch events", error: message }, {status: 500});
 
     }
 }

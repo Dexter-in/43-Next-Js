@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import { Event } from '@/database';
 
+export const runtime = "nodejs";
+
 // TypeScript interface for route params
 interface RouteParams {
   params: Promise<{
@@ -72,9 +74,7 @@ export async function GET(
     }
 
     // Generic error response
-    return NextResponse.json(
-      { error: 'Internal server error. Please try again later.' },
-      { status: 500 }
-    );
+    const message = error instanceof Error ? error.message : "Unknown error";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
