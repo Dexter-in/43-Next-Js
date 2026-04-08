@@ -6,9 +6,9 @@ import BookEvent from "@/components/BookEvent";
 import EventCard from "@/components/EventCard";
 import {cacheLife} from "next/cache";
 import { getSimilarEventBySlug } from '@/lib/actions/event.actions';
-;
+import { getPublicBaseUrl } from "@/lib/base-url";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const BASE_URL = getPublicBaseUrl();
 
 const EventDetailItem = ({ icon, alt, label }: { icon: string; alt: string; label: string; }) => (
     <div className="flex-row-gap-2 items-center">
@@ -43,7 +43,7 @@ const EventDetails = async ({ params }: { params: Promise<string> }) => {
 
     let event;
     try {
-        const request = await fetch(`${BASE_URL}/api/events/${slug}`, {
+        const request = await fetch(new URL(`/api/events/${slug}`, BASE_URL), {
             next: { revalidate: 60 }
         });
 
