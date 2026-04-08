@@ -7,7 +7,7 @@ import { cacheLife } from "next/cache";
 
 
 
- const BASE_URL = process.env.NEXT_PUBLIC_URL 
+ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL 
 
 const Page =  async () => {
     'use cache';
